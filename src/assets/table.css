@@ -1,0 +1,48 @@
+.c-table-wrapper {
+  width: inherit;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.c-table-wrapper__header-wrapper {
+  width: 100%;
+  border: 1px solid #dddddd;
+  border-bottom: 0;
+}
+
+.c-table-wrapper__body-wrapper {
+  overflow-y: scroll;
+  width: 100%;
+  border: 1px solid #dddddd;
+}
+
+@media (max-width: 1024px) {
+  .c-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .c-table-wrapper__header-wrapper,
+  .c-table-wrapper__body-wrapper {
+    min-width: 1024px;
+  }
+}
+
+.c-table-record {
+
+}
+
+.c-table-record__column {
+
+}
+
+.c-table-header-container {
+  padding-right: 16px;
+}
+
+.c-table-header-record {
+
+}
+
+.c-table-header-record__column {
+
+}
