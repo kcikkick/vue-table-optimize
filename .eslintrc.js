@@ -25,7 +25,7 @@ module.exports = {
     // allow async-await
     'no-console': ['off'],
     'arrow-parens': ['error', 'as-needed'],
-    'semi': ['error', 'off'],
+    'semi': ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],
     'brace-style': ['error', 'stroustrup'],
     'prefer-template': 'error',

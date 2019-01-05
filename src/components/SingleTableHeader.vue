@@ -1,48 +1,52 @@
 <template>
-  <section class='c-table-header-container'>
-    <ul class='c-table-record c-table-header-record' :style='{height: getHeaderHeight}'>
-      <li class='c-table-record__column c-table-header-record__column'
-          v-for='(column, index) in tableTitle'
-          :key='column[cIdKey]'
-          :columnKey='column[cIdKey]'
-          :title='column.titleName'
-          :style='{width: column.width ? column.width : defaultWidth}'
-      >
-        <span v-if='!column.renderHeader'>{{column.titleName}}</span>
+  <ul class='c-table-header__record' :style='{height: getHeaderHeight}'>
+    <li class='c-table-header-column'
+        v-for='(column, index) in columnsConfig'
+        :key='column[cIdKey]'
+        :columnKey='column[cIdKey]'
+        :title='column.title'
+        :style='getColumnStyle(column)'
+    >
+      <div class='c-table-header-column__container'>
+        <span v-if='!column.renderHeader'>{{column.title}}</span>
         <render-header v-else :render='column.renderHeader' :column='column' :index='index'></render-header>
-      </li>
-    </ul>
-  </section>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script>
-  import RenderHeader from './tableHelper/expand'
-  import {DEFAULT_TABLE_HEADER_HEIGHT} from '../common/table-enhance/tableHelper/constant'
+import RenderHeader from './tableHelper/expand';
+import {ID_NAME} from './tableHelper/constant';
 
-  export default {
-    name: 'SingleTableHeader',
-    components: {RenderHeader},
-    props: {
-      columnsConfig: Array,
-      height: {
-        type: Number,
-        default: function () {
-          return DEFAULT_TABLE_HEADER_HEIGHT
-        }
-      }
+export default {
+  name: 'SingleTableHeader',
+  components: {RenderHeader},
+  props: {
+    columnsConfig: Array,
+    height: Number,
+  },
+  data () {
+    return {
+      cIdKey: ID_NAME,
+    };
+  },
+  computed: {
+    getHeaderHeight: function () {
+      return {
+        height: `${this.height}px`,
+      };
     },
-    data() {
-      return {}
+  },
+  methods: {
+    getColumnStyle: function (column) {
+      return {
+        width: column.cWidth,
+        height: `${this.height}px`,
+      };
     },
-    computed: {
-      getHeaderHeight: function () {
-        return {
-          height: `${this.height}px`
-        }
-      }
-    },
-    methods: {}
-  }
+  },
+};
 </script>
 
 <style scoped>

@@ -25,7 +25,7 @@
     props: {
       tableTitle: {type: Array},
       record: {type: Object},
-      columnHeight: {type: Number},
+      columnHeight: {type: Number}
     },
     computed: {
       defaultWidth: function () {
@@ -33,18 +33,18 @@
       },
       getRecordHeight: function () {
         return `${this.columnHeight}px`;
-      },
+      }
     },
     watch: {
       record: {
         handler: function (val) {
           this.recordStyle = {
-            display: val.isHidden ? 'none' : '',
+            display: val.isHidden ? 'none' : ''
           };
         },
         immediate: true,
-        deep: true,
-      },
+        deep: true
+      }
     },
     methods: {
       initColumnWidth: function (columnWidth, index) {
@@ -52,13 +52,13 @@
           return `${100 / this.tableTitle.length}%`;
         }
         return columnWidth || this.defaultWidth;
-      },
+      }
     },
-    data () {
+    data() {
       return {
-        recordStyle: {},
+        recordStyle: {}
       };
-    },
+    }
   };
 </script>
 
