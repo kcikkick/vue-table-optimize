@@ -8,3 +8,7 @@ export const DEFAULT_TABLE_HEADER_HEIGHT = 40;
 export const DEFAULT_TABLE_RECORD_HEIGHT = 40;
 export const DEFAULT_TABLE_HEIGHT = 400;
 export const DEFAULT_TABLE_WIDTH = 'inherit';
+export const TABLE_TYPE_COMMON = 'COMMON';
+export const TABLE_TYPE_RAFS = 'RAFS';
+export const TABLE_TYPE_VIRTUAL = 'VIRTUAL';
+export const VIRTUAL_REMAIN_COUNT = 3;

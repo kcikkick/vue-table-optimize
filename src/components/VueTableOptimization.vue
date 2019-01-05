@@ -7,6 +7,7 @@
                   :header-height='headerHeight'
                   :body-height='bodyHeight'
                   :record-height='recordHeight'
+                  :render-type='renderType'
     ></single-table>
   </div>
 </template>
@@ -20,6 +21,7 @@ import {
   DEFAULT_TABLE_HEIGHT,
   DEFAULT_TABLE_HEADER_HEIGHT,
   DEFAULT_TABLE_RECORD_HEIGHT,
+  TABLE_TYPE_COMMON,
 } from './tableHelper/constant';
 import {getRandomStr} from './tableHelper/tableUtil';
 
@@ -27,6 +29,12 @@ export default {
   components: {SingleTable},
   name: 'VueTableOptimization',
   props: {
+    renderType: {
+      type: String,
+      default () {
+        return TABLE_TYPE_COMMON;
+      },
+    },
     columnsConfig: {
       type: Array,
       default () {

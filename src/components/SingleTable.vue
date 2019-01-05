@@ -6,23 +6,30 @@
         :height='headerHeight'
       ></table-header>
     </section>
-    <section class='c-table-wrapper__body-wrapper' :style='{height: getBodyHeight}'>
-      <table-body v-for='item in data'
-                  :key='item[recordKey]'
-                  :columns-config='columnsConfig'
-                  :record-height='recordHeight'
-                  :record='item'>
-      </table-body>
-    </section>
+    <table-body v-if='showRender("COMMON")'
+                :data='data'
+                :record-key='recordKey'
+                :columns-config='columnsConfig'
+                :record-height='recordHeight'
+                :body-height='bodyHeight'>
+    </table-body>
+    <virtual-scroll-table-body v-if='showRender("VIRTUAL")'
+                :data='data'
+                :record-key='recordKey'
+                :columns-config='columnsConfig'
+                :record-height='recordHeight'
+                :body-height='bodyHeight'>
+    </virtual-scroll-table-body>
   </article>
 </template>
 
 <script>
 import TableHeader from './SingleTableHeader';
 import TableBody from './SingleTableBody';
+import VirtualScrollTableBody from './VirtualScrollTableBody';
 
 export default {
-  components: {TableHeader, TableBody},
+  components: {TableHeader, TableBody, VirtualScrollTableBody},
   name: 'SingleTable',
   props: {
     columnsConfig: Array,
@@ -31,16 +38,18 @@ export default {
     headerHeight: Number,
     bodyHeight: Number,
     recordHeight: Number,
+    renderType: String,
   },
   data () {
     return {};
   },
   computed: {
-    getBodyHeight: function () {
-      return `${this.bodyHeight}px`;
+  },
+  methods: {
+    showRender: function (type) {
+      return this.renderType === type;
     },
   },
-  methods: {},
 };
 </script>
 
