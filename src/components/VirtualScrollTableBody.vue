@@ -56,6 +56,10 @@ export default {
     return {
       virtualData: {},
       renderData: [],
+      minHeight: -1,
+      maxHeight: -1,
+      minRecordKeyHeight: 0,
+      maxRecordKeyHeight: 0,
     };
   },
   computed: {
@@ -89,13 +93,9 @@ export default {
       }
       return virtualData;
     },
-    buildRenderData: function () {
-      const virtualScrollBody = this.$refs.virtualScrollBody;
-      const scrollTop = virtualScrollBody ? virtualScrollBody.scrollTop : 0;
-      const remainHeight = VIRTUAL_REMAIN_COUNT * this.recordHeight;
-      const minHeight = scrollTop - remainHeight;
-      const maxHeight = scrollTop + this.bodyHeight + remainHeight;
+    buildRenderData: function (minHeight, maxHeight) {
       const renderData = [];
+      const renderKeys = [];
       for (const key in this.virtualData) {
         const recordIndexHeigh = parseInt(key);
         const validateInclude = recordIndexHeigh >= minHeight && recordIndexHeigh <= maxHeight;
@@ -103,8 +103,11 @@ export default {
         const validateBoundaryEnd = recordIndexHeigh <= maxHeight && maxHeight <= recordIndexHeigh + this.recordHeight;
         if (validateInclude || validateBoundaryStart || validateBoundaryEnd) {
           renderData.push(this.virtualData[key]);
+          renderKeys.push(recordIndexHeigh);
         }
       }
+      this.minRecordKeyHeight = _.min(renderKeys);
+      this.maxRecordKeyHeight = _.max(renderKeys);
       return renderData;
     },
     getBodyContainerStyle: function (record) {
@@ -113,8 +116,20 @@ export default {
         height: `${this.recordHeight}px`,
       };
     },
+    needRefresh: function (scrollTop) {
+      const viewPortStart = scrollTop;
+      const viewPortEnd = scrollTop + this.bodyHeight;
+      return !(this.minRecordKeyHeight < viewPortStart && viewPortEnd < this.maxRecordKeyHeight);
+    },
     refreshRenderData: function () {
-      this.renderData = this.buildRenderData();
+      const virtualScrollBody = this.$refs.virtualScrollBody;
+      const scrollTop = virtualScrollBody ? virtualScrollBody.scrollTop : 0;
+      const remainHeight = VIRTUAL_REMAIN_COUNT * this.recordHeight;
+      const minHeight = scrollTop - remainHeight;
+      const maxHeight = scrollTop + this.bodyHeight + remainHeight;
+      if (this.needRefresh(scrollTop)) {
+        this.renderData = this.buildRenderData(minHeight, maxHeight);
+      }
     },
     onVirtualScroll: function (e) {
       window.requestAnimationFrame(this.refreshRenderData);
