@@ -121,6 +121,32 @@ export default {
       const viewPortEnd = scrollTop + this.bodyHeight;
       return !(this.minRecordKeyHeight < viewPortStart && viewPortEnd < this.maxRecordKeyHeight);
     },
+    updateRenderData: function (newData) {
+      if (this.renderData.length === 0) {
+        this.renderData = newData;
+        return;
+      }
+      const newItems = [];
+      for (const newRecord of newData) {
+        if (_.findIndex(this.renderData, {[this.recordKey]: newRecord[this.recordKey]}) < 0) {
+          newItems.push(newRecord);
+        }
+      }
+      const replaceItemsIndex = [];
+      for (let index = 0; index < this.renderData.length; index++) {
+        const record = this.renderData[index];
+        if (_.findIndex(newData, {[this.recordKey]: record[this.recordKey]}) < 0) {
+          replaceItemsIndex.push(index);
+        }
+      }
+      for (let index = 0; index < newItems.length; index++) {
+        if (index < replaceItemsIndex.length) {
+          this.$set(this.renderData, replaceItemsIndex[index], newItems[index]);
+          continue;
+        }
+        this.renderData.push(newItems[index]);
+      }
+    },
     refreshRenderData: function () {
       const virtualScrollBody = this.$refs.virtualScrollBody;
       const scrollTop = virtualScrollBody ? virtualScrollBody.scrollTop : 0;
@@ -128,7 +154,7 @@ export default {
       const minHeight = scrollTop - remainHeight;
       const maxHeight = scrollTop + this.bodyHeight + remainHeight;
       if (this.needRefresh(scrollTop)) {
-        this.renderData = this.buildRenderData(minHeight, maxHeight);
+        this.updateRenderData(this.buildRenderData(minHeight, maxHeight));
       }
     },
     onVirtualScroll: function (e) {
