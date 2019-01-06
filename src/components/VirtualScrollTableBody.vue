@@ -1,10 +1,14 @@
 <template>
-  <section class='c-table-wrapper__body-wrapper' ref='virtualScrollBody'
+  <section class='c-table-wrapper__body-wrapper c-table-body-wrapper__virtual'
+           ref='virtualScrollBody'
+           @scroll.passive='onVirtualScroll'
            :style='{height: getBodyHeight}'>
-    <div :style='getBodyContainerStyle'>
-      <div class='c-table-body-container'
+    <div :style='getBodyWrapperStyle'>
+      <div class='c-table-body-container c-table-body-container__virtual'
            v-for='record in renderData'
-           :key='record[recordKey]'>
+           :key='record[recordKey]'
+           :style='getBodyContainerStyle(record)'
+      >
         <ul class='c-table-body__record'
             :style='{height: getRecordHeight}'>
           <li class='c-table-body-column'
@@ -26,6 +30,7 @@
 <script>
 import RenderBody from './tableHelper/expand';
 import {VIRTUAL_REMAIN_COUNT} from './tableHelper/constant';
+import _ from 'lodash';
 
 export default {
   name: 'VirtualScrollTableBody',
@@ -41,7 +46,7 @@ export default {
     data: {
       handler: function (val) {
         this.virtualData = this.convertVirtualData(val);
-        this.renderData = this.buildRenderData();
+        this.refreshRenderData();
       },
       immediate: true,
       deep: true,
@@ -60,9 +65,10 @@ export default {
     getBodyHeight: function () {
       return `${this.bodyHeight}px`;
     },
-    getBodyContainerStyle: function () {
+    getBodyWrapperStyle: function () {
       return {
         height: `${this.data.length * this.recordHeight}px`,
+        position: 'relative',
       };
     },
   },
@@ -76,8 +82,10 @@ export default {
     convertVirtualData: function (data) {
       const virtualData = {};
       for (let index = 0; index < data.length; index++) {
-        const recordKey = `${index * this.recordHeight}`;
-        virtualData[recordKey] = data[index];
+        const recordIndexHight = `${index * this.recordHeight}`;
+        const record = _.cloneDeep(data[index]);
+        record.translateY = `${recordIndexHight}px`;
+        virtualData[recordIndexHight] = record;
       }
       return virtualData;
     },
@@ -89,21 +97,42 @@ export default {
       const maxHeight = scrollTop + this.bodyHeight + remainHeight;
       const renderData = [];
       for (const key in this.virtualData) {
-        const validateInclude = key >= minHeight && key <= maxHeight;
-        const validateBoundaryStart = key <= minHeight && minHeight <= key + this.recordHeight;
-        const validateBoundaryEnd = key <= maxHeight && maxHeight <= key + this.recordHeight;
+        const recordIndexHeigh = parseInt(key);
+        const validateInclude = recordIndexHeigh >= minHeight && recordIndexHeigh <= maxHeight;
+        const validateBoundaryStart = recordIndexHeigh <= minHeight && minHeight <= recordIndexHeigh + this.recordHeight;
+        const validateBoundaryEnd = recordIndexHeigh <= maxHeight && maxHeight <= recordIndexHeigh + this.recordHeight;
         if (validateInclude || validateBoundaryStart || validateBoundaryEnd) {
           renderData.push(this.virtualData[key]);
         }
       }
       return renderData;
     },
+    getBodyContainerStyle: function (record) {
+      return {
+        transform: `translateY(${record.translateY})`,
+        height: `${this.recordHeight}px`,
+      };
+    },
+    refreshRenderData: function () {
+      this.renderData = this.buildRenderData();
+    },
+    onVirtualScroll: function (e) {
+      window.requestAnimationFrame(this.refreshRenderData);
+    },
   },
 };
 </script>
 
 <style scoped>
-  .c-table-wrapper__body-wrapper {
+  .c-table-body-wrapper__virtual {
     display: inherit;
+  }
+
+  .c-table-body-container__virtual {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
   }
 </style>

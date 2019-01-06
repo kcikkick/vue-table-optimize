@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import './tableHelper/requestAnimationFrameUtil';
 import SingleTable from './SingleTable';
 import _ from 'lodash';
 import {
