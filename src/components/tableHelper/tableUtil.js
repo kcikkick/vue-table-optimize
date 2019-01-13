@@ -89,3 +89,21 @@ const getRandomStr = (len = 32) => {
   return str;
 };
 export {getRandomStr};
+
+const calculateDomItemsMinHeight = (itemHeight, remainHeight, scrollTop) => {
+  return scrollTop > remainHeight ? Math.floor((scrollTop - remainHeight) / itemHeight) * itemHeight : 0;
+};
+
+const calculateDomItemsMaxHeight = (itemHeight, remainHeight, viewPortHeight, renderItemsHeight, scrollTop) => {
+  return scrollTop > remainHeight ? Math.ceil((scrollTop + remainHeight + viewPortHeight) / itemHeight) * itemHeight : renderItemsHeight;
+};
+
+const calDomItemsHeight = (itemHeight, remainHeight, viewPortHeight, renderItemsHeight, scrollTop) => {
+  const minHeight = calculateDomItemsMinHeight(itemHeight, remainHeight, scrollTop);
+  const maxHeight = calculateDomItemsMaxHeight(itemHeight, remainHeight, viewPortHeight, renderItemsHeight, scrollTop);
+  return [
+    minHeight,
+    maxHeight,
+  ];
+};
+export {calDomItemsHeight};

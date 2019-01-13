@@ -17,8 +17,8 @@
                 :data='data'
                 :record-key='recordKey'
                 :columns-config='columnsConfig'
-                :record-height='recordHeight'
-                :body-height='bodyHeight'>
+                :item-height='recordHeight'
+                :viewport-height='bodyHeight'>
     </virtual-scroll-table-body>
   </article>
 </template>
