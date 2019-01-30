@@ -21,38 +21,38 @@
 </template>
 
 <script>
-import RenderBody from './tableHelper/expand';
+  import RenderBody from './tableHelper/expand';
 
-export default {
-  name: 'SingleTableBody',
-  components: {RenderBody},
-  props: {
-    columnsConfig: Array,
-    data: Array,
-    recordKey: String,
-    recordHeight: Number,
-    bodyHeight: Number,
-  },
-  data () {
-    return {};
-  },
-  computed: {
-    getRecordHeight: function () {
-      return `${this.recordHeight}px`;
+  export default {
+    name: 'SingleTableBody',
+    components: {RenderBody},
+    props: {
+      columnsConfig: Array,
+      data: Array,
+      recordKey: String,
+      recordHeight: Number,
+      bodyHeight: Number,
     },
-    getBodyHeight: function () {
-      return `${this.bodyHeight}px`;
+    data () {
+      return {};
     },
-  },
-  methods: {
-    getColumnStyle: function (column) {
-      return {
-        width: column.cWidth,
-        height: `${this.recordHeight}px`,
-      };
+    computed: {
+      getRecordHeight: function () {
+        return `${this.recordHeight}px`;
+      },
+      getBodyHeight: function () {
+        return `${this.bodyHeight}px`;
+      },
     },
-  },
-};
+    methods: {
+      getColumnStyle: function (column) {
+        return {
+          width: column.cWidth,
+          height: `${this.recordHeight}px`,
+        };
+      },
+    },
+  };
 </script>
 
 <style scoped>

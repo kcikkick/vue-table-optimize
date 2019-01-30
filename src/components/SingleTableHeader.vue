@@ -16,37 +16,37 @@
 </template>
 
 <script>
-import RenderHeader from './tableHelper/expand';
-import {ID_NAME} from './tableHelper/constant';
+  import RenderHeader from './tableHelper/expand';
+  import {ID_NAME} from './tableHelper/constant';
 
-export default {
-  name: 'SingleTableHeader',
-  components: {RenderHeader},
-  props: {
-    columnsConfig: Array,
-    height: Number,
-  },
-  data () {
-    return {
-      cIdKey: ID_NAME,
-    };
-  },
-  computed: {
-    getHeaderHeight: function () {
+  export default {
+    name: 'SingleTableHeader',
+    components: {RenderHeader},
+    props: {
+      columnsConfig: Array,
+      height: Number,
+    },
+    data () {
       return {
-        height: `${this.height}px`,
+        cIdKey: ID_NAME,
       };
     },
-  },
-  methods: {
-    getColumnStyle: function (column) {
-      return {
-        width: column.cWidth,
-        height: `${this.height}px`,
-      };
+    computed: {
+      getHeaderHeight: function () {
+        return {
+          height: `${this.height}px`,
+        };
+      },
     },
-  },
-};
+    methods: {
+      getColumnStyle: function (column) {
+        return {
+          width: column.cWidth,
+          height: `${this.height}px`,
+        };
+      },
+    },
+  };
 </script>
 
 <style scoped>

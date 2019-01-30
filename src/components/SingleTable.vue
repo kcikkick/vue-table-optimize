@@ -13,44 +13,56 @@
                 :record-height='recordHeight'
                 :body-height='bodyHeight'>
     </table-body>
-    <virtual-scroll-table-body v-if='showRender("VIRTUAL")'
+    <request-animation-frame-table-body v-if='showRender("ANIMATION")'
                 :data='data'
                 :record-key='recordKey'
                 :columns-config='columnsConfig'
-                :item-height='recordHeight'
-                :viewport-height='bodyHeight'>
+                :record-height='recordHeight'
+                :body-height='bodyHeight'>
+    </request-animation-frame-table-body>
+    <virtual-scroll-table-body v-if='showRender("VIRTUAL")'
+                               :data='data'
+                               :record-key='recordKey'
+                               :columns-config='columnsConfig'
+                               :item-height='recordHeight'
+                               :viewport-height='bodyHeight'>
     </virtual-scroll-table-body>
   </article>
 </template>
 
 <script>
-import TableHeader from './SingleTableHeader';
-import TableBody from './SingleTableBody';
-import VirtualScrollTableBody from './VirtualScrollTableBody';
+  import TableHeader from './SingleTableHeader';
+  import TableBody from './SingleTableBody';
+  import RequestAnimationFrameTableBody from './RequestAnimationFrameTableBody';
+  import VirtualScrollTableBody from './VirtualScrollTableBody';
 
-export default {
-  components: {TableHeader, TableBody, VirtualScrollTableBody},
-  name: 'SingleTable',
-  props: {
-    columnsConfig: Array,
-    data: Array,
-    recordKey: String,
-    headerHeight: Number,
-    bodyHeight: Number,
-    recordHeight: Number,
-    renderType: String,
-  },
-  data () {
-    return {};
-  },
-  computed: {
-  },
-  methods: {
-    showRender: function (type) {
-      return this.renderType === type;
+  export default {
+    components: {
+      TableHeader,
+      TableBody,
+      RequestAnimationFrameTableBody,
+      VirtualScrollTableBody,
     },
-  },
-};
+    name: 'SingleTable',
+    props: {
+      columnsConfig: Array,
+      data: Array,
+      recordKey: String,
+      headerHeight: Number,
+      bodyHeight: Number,
+      recordHeight: Number,
+      renderType: String,
+    },
+    data () {
+      return {};
+    },
+    computed: {},
+    methods: {
+      showRender: function (type) {
+        return this.renderType === type;
+      },
+    },
+  };
 </script>
 
 <style>
@@ -106,6 +118,7 @@ export default {
     padding-left: 6px;
     overflow: hidden;
     white-space: nowrap;
+    flex: 1 1 auto;
   }
 
   .c-table-header-column__container,

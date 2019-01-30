@@ -24,8 +24,11 @@ module.exports = {
   rules: {
     // allow async-await
     'no-console': ['off'],
+    // 缩进
+    'indent': ['off'],
     'arrow-parens': ['error', 'as-needed'],
     'semi': ['error', 'always'],
+    //定义数组或对象最后多余的逗号
     'comma-dangle': ['error', 'always-multiline'],
     'brace-style': ['error', 'stroustrup'],
     'prefer-template': 'error',

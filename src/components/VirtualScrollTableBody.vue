@@ -41,7 +41,7 @@
       data: Array,
       recordKey: String,
       itemHeight: Number,
-      viewportHeight: Number
+      viewportHeight: Number,
     },
     watch: {
       data: {
@@ -50,8 +50,8 @@
           this.refreshRenderData();
         },
         immediate: true,
-        deep: true
-      }
+        deep: true,
+      },
     },
     data () {
       const renderItems = Math.ceil(this.viewportHeight / this.itemHeight) + 2 * VIRTUAL_REMAIN_COUNT;
@@ -62,7 +62,7 @@
         maxItemKeyHeight: -1,
         remainHeight: VIRTUAL_REMAIN_COUNT * this.itemHeight,
         renderItems: renderItems,
-        renderItemsHeight: renderItems * this.itemHeight
+        renderItemsHeight: renderItems * this.itemHeight,
       };
     },
     computed: {
@@ -75,22 +75,22 @@
       getBodyWrapperStyle: function () {
         return {
           height: `${this.data.length * this.itemHeight}px`,
-          position: 'relative'
+          position: 'relative',
         };
-      }
+      },
     },
     methods: {
       getColumnStyle: function (column) {
         return {
           width: column.cWidth,
-          height: `${this.itemHeight}px`
+          height: `${this.itemHeight}px`,
         };
       },
       buildRenderData: function (minHeight, maxHeight) {
         const minItemKey = minHeight / this.itemHeight;
         const maxItemKey = maxHeight / this.itemHeight;
         const startIndex = minItemKey > 0 ? minItemKey : -1;
-        const endIndex = maxItemKey > this.virtualData.length ? data.length : maxItemKey;
+        const endIndex = maxItemKey > this.virtualData.length ? this.data.length : maxItemKey;
         const renderData = [];
         for (let index = startIndex + 1; index < endIndex; index++) {
           const item = this.virtualData[index];
@@ -104,7 +104,7 @@
       getBodyContainerStyle: function (record) {
         return {
           transform: `translateY(${record.translateY})`,
-          height: `${this.itemHeight}px`
+          height: `${this.itemHeight}px`,
         };
       },
       updateRenderData: function (newData) {
@@ -141,8 +141,8 @@
       },
       onVirtualScroll (e) {
         window.requestAnimationFrame(this.refreshRenderData);
-      }
-    }
+      },
+    },
   };
 </script>
 
