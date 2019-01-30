@@ -1,6 +1,6 @@
 <template>
   <article class='c-table-wrapper'>
-    <section class='c-table-wrapper__header-wrapper'>
+    <section class='c-table-wrapper__header-wrapper' :class='headerClass'>
       <table-header
         :columns-config='columnsConfig'
         :height='headerHeight'
@@ -14,11 +14,11 @@
                 :body-height='bodyHeight'>
     </table-body>
     <request-animation-frame-table-body v-if='showRender("ANIMATION")'
-                :data='data'
-                :record-key='recordKey'
-                :columns-config='columnsConfig'
-                :record-height='recordHeight'
-                :body-height='bodyHeight'>
+                                        :data='data'
+                                        :record-key='recordKey'
+                                        :columns-config='columnsConfig'
+                                        :record-height='recordHeight'
+                                        :body-height='bodyHeight'>
     </request-animation-frame-table-body>
     <virtual-scroll-table-body v-if='showRender("VIRTUAL")'
                                :data='data'
@@ -52,6 +52,7 @@
       bodyHeight: Number,
       recordHeight: Number,
       renderType: String,
+      headerClass: String,
     },
     data () {
       return {};
@@ -134,4 +135,12 @@
   .c-table-body-container:last-child .c-table-body__record {
     border-bottom: 0;
   }
+
+  .c-table-header__default {
+    background-color: #f8f8f9;
+    color: #297EA3;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
 </style>

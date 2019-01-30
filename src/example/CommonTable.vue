@@ -11,6 +11,10 @@
 <script>
   import result from './data/schedule';
   import VueTableOptimization from '../components/VueTableOptimization.vue';
+  import {
+    displayDelayContent,
+    displayColor,
+  } from './util/renderUtil';
 
   const DESC = 'desc';
   const ASC = 'asc';
@@ -79,6 +83,15 @@
             key: 'actualDelay',
             index: 10,
             enableEllipsis: true,
+            render: (h, params) => {
+              return h('div', [
+                h('p', {
+                  style: {
+                    color: displayColor(params.row.actualDelay),
+                  },
+                }, displayDelayContent(params.row.actualDelay)),
+              ]);
+            },
           },
           {
             title: 'Predict Arrival',
@@ -93,6 +106,15 @@
             key: 'potentialDelay',
             index: 13,
             enableEllipsis: true,
+            render: (h, params) => {
+              return h('div', [
+                h('p', {
+                  style: {
+                    color: displayColor(params.row.potentialDelay),
+                  },
+                }, displayDelayContent(params.row.potentialDelay)),
+              ]);
+            },
           },
         ],
         defaultSortingFields: [

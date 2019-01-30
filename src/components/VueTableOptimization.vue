@@ -8,6 +8,7 @@
                   :body-height='bodyHeight'
                   :record-height='recordHeight'
                   :render-type='renderType'
+                  :header-class='headerClass'
     ></single-table>
   </div>
 </template>
@@ -74,6 +75,12 @@
         type: Number,
         default () {
           return DEFAULT_TABLE_RECORD_HEIGHT;
+        },
+      },
+      headerClass: {
+        type: String,
+        default: function () {
+          return 'c-table-header__default';
         },
       },
     },
