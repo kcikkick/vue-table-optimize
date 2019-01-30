@@ -107,23 +107,29 @@
           height: `${this.itemHeight}px`,
         };
       },
-      updateRenderData: function (newData) {
-        if (this.renderData.length === 0) {
-          this.renderData = newData;
-          return;
-        }
+      buildNewItems: function (newData) {
         const newItems = [];
         for (const newRecord of newData) {
           if (_.findIndex(this.renderData, {__vkey: newRecord.__vkey}) < 0) {
             newItems.push(newRecord);
           }
         }
+        return newItems;
+      },
+      buildOutDateItems: function (newData) {
         const replaceItemsIndex = [];
         for (let index = 0; index < this.renderData.length; index++) {
           const record = this.renderData[index];
           if (_.findIndex(newData, {__vkey: record.__vkey}) < 0) {
             replaceItemsIndex.push(index);
           }
+        }
+        return replaceItemsIndex;
+      },
+      refreshVirtualItems: function (newItems, replaceItemsIndex) {
+        if (newItems.length === this.renderData.length) {
+          this.renderData = newItems;
+          return;
         }
         for (let index = 0; index < newItems.length; index++) {
           if (index < replaceItemsIndex.length) {
@@ -132,6 +138,15 @@
           }
           this.renderData.push(newItems[index]);
         }
+      },
+      updateRenderData: function (newData) {
+        if (this.renderData.length === 0) {
+          this.renderData = newData;
+          return;
+        }
+        const newItems = this.buildNewItems(newData);
+        const replaceItemsIndex = this.buildOutDateItems(newData);
+        this.refreshVirtualItems(newItems, replaceItemsIndex);
       },
       refreshRenderData: function () {
         const virtualScrollBody = this.$refs.virtualScrollBody;
