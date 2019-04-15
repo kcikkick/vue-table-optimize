@@ -51,7 +51,7 @@
         if (e.target.id) {
           this.commonLinkActive = false;
           this.rafLinkActive = false;
-          this.virtualLinkActiv = false;
+          this.virtualLinkActive = false;
           if (e.target.id === 'commonMenu') {
             this.commonLinkActive = true;
           }
