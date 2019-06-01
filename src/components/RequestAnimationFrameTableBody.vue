@@ -63,7 +63,7 @@
       },
       addRecord: function () {
         const beginIndex = this.countOfRender * this.addNumber;
-        const endIndex = beginIndex + this.addNumber - 1;
+        const endIndex = beginIndex + this.addNumber;
         const records = this.filterResult.slice(beginIndex, endIndex);
         this.animationResult = this.animationResult.concat(records);
         this.countOfRender += 1;
